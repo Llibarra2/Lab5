@@ -22,7 +22,20 @@ class Heap:
                 self.swap(parentIndex, i)
             i = parentIndex
 
+  def heapSort(self):#Sorts in decending order
+        size = len(self.heap_array)
+        #temp array to hold the root item every time is is removed
+        temp = []
 
+        #for loop to traverse the array and pop the root into the temp array
+        for i in range(size):
+            temp.append(self.heap_array[0])
+            self.swap(0, len(self.heap_array) - 1)
+            self.heap_array = self.heap_array[:len(self.heap_array) - 1]
+            self.heapify(0)
+
+        #overwritting the heap array with the temp array
+        self.heap_array = temp
 
     def heapify(self, i):#switches values of parent and child if child is smaller than parent
         n = len(self.heap_array)
@@ -42,34 +55,12 @@ class Heap:
         #method uses if statments since both children could be smaller than the parent
         #but you want the smallest child 
 
-
-    def heapSort(self):#Sorts in decending order
-        size = len(self.heap_array)
-        #temp array to hold the root item every time is is removed
-        temp = []
-
-        #for loop to traverse the array and pop the root into the temp array
-        for i in range(size):
-            temp.append(self.heap_array[0])
-            self.swap(0, len(self.heap_array) - 1)
-            self.heap_array = self.heap_array[:len(self.heap_array) - 1]
-            self.heapify(0)
-
-        #overwritting the heap array with the temp array
-        self.heap_array = temp
-
-
-
     def is_empty(self):#checks if heap array is empty
         return len(self.heap_array) == 0
-
-
 
     def extract_min(self):#extracts the minimum value in the array
         if self.is_empty():
             return None
-
-
 
         #assign the value of the root to min
         #the root is now swapped and heapified
@@ -112,11 +103,11 @@ def read(heap):#Reads txt file to input into heap
     
     
 def menu():
-    menu = ["a", "b", "c", "d", "e", "f"]
+    menu = [1,2,3,4,5]
 
-    user = input("\nChoose an option\n\nA) Display Min Heap of Inserted txt File\nB) Insert Number\nC) Extract Minimum Number\nD) Check If Heap Is Empty\nE) Sort the List\n Exit\n")
-    if user.lower() in menu:#checks in lower case to avoid  any case sensitivity
-        return user.lower(), True
+    user = input("\nChoose one of the following options: o\n\n1) Show the Min Heap\n2) Insert int value \n3) Extract Minimum Number\n4) Check If Heap Is Empty\n5) Sort the List\n Exit\n")
+    if user in menu:#checks if users input is in the array: menu
+        return user, True
     else:
         print("Invalid option")
         return user, False
@@ -137,11 +128,11 @@ def main():
             user, status = menu()
 
         #call method to print min heap array
-        if user == "a":
+        if user == 1
             print("\nMin Heap List: \n")
             heap.print()
         #require user to input any number in to created heap
-        elif user == "b":
+        elif user == 2
             status = False
             while status is False:
                 user = input("Please enter a digit you wish to insert: ")
@@ -156,21 +147,21 @@ def main():
                    print("Make sure to insert an integer")
 
         #print the minimum number and print the new list
-        elif user == "c":
+        elif user == 3
             minNumber = heap.extract_min()
             print("The minimum extracted is: %d\n" % minNumber)
             print("The new list is: ")
             heap.print()
 
-        elif user == "d": #call method to check in heap is empty
+        elif user == 4 #call method to check in heap is empty
             answer = heap.is_empty()
             print(answer)
 
-        elif user == "e":#sorts heap with minHeap
+        elif user == 5#sorts heap with minHeap
             heap.heapSort()
             heap.print()
 
-        elif user == "f":#Stops program
+        elif user == 6#Stops program
             cont = False
 
 
