@@ -1,9 +1,3 @@
-'''
-Lester Ibarra
-80578839
-Diego Aguirre
-'''
-
 #min heap class
 class Heap:
     def __init__(self):#class constructor to build an array
