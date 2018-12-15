@@ -1,110 +1,122 @@
+'''
+Lester Ibarra
+80578839
+Diego Aguirre
+'''
+
+import time
+
 #min heap class
 class Heap:
-    def __init__(self):#class constructor to build an array
-        self.heap_array = []
+    #class constructor to build an array
+    def __init__(self):
+        self.heapArr = []
 
+    #method used to insert items in to the array
+    def insert(self, key):
+        self.heapArr.append(key)
+        index = len(self.heapArr) - 1
 
+        while index > 0:
 
-    def insert(self, key): #insert values into heap array
-        self.heap_array.append(key)
-        for i in range(1, len(self.heap_array)):
-
-            parentIndex = (i - 1) //2
-            if (self.heap_array[i]>= self.heap_array[parentIndex]):
+            parentIndex = (index - 1) //2
+            if (self.heapArr[index]>= self.heapArr[parentIndex]):
                 return
             else:
-                self.swap(parentIndex, i)
-            i = parentIndex
+                self.swap(parentIndex, index)
+            index = parentIndex
 
-  def heapSort(self):#Sorts in decending order
-        size = len(self.heap_array)
-        #temp array to hold the root item every time is is removed
-        temp = []
-
-        #for loop to traverse the array and pop the root into the temp array
-        for i in range(size):
-            temp.append(self.heap_array[0])
-            self.swap(0, len(self.heap_array) - 1)
-            self.heap_array = self.heap_array[:len(self.heap_array) - 1]
-            self.heapify(0)
-
-        #overwritting the heap array with the temp array
-        self.heap_array = temp
-
-    def heapify(self, i):#switches values of parent and child if child is smaller than parent
-        n = len(self.heap_array)
-        parent = i
-        leftChild = (2*i)+1
-        rightChild = (2*i)+2
-        
-        if leftChild < n and self.heap_array[i] > self.heap_array[leftChild]:
-            parent = leftChild#the parent will equal to the left child if smmaller
-
-        if rightChild < n and self.heap_array[parent] > self.heap_array[rightChild]:
-            parent = rightChild#the parent will equal to the right child if smaller
-
-        if parent != i:
-            self.swap(i, parent)#swaps parent with smallest child, if child is smaller
-            self.heapify(parent)
-        #method uses if statments since both children could be smaller than the parent
-        #but you want the smallest child 
-
-    def is_empty(self):#checks if heap array is empty
-        return len(self.heap_array) == 0
-
-    def extract_min(self):#extracts the minimum value in the array
+        #method to extract the minimum value in the array
+    def extract_min(self):
         if self.is_empty():
             return None
 
         #assign the value of the root to min
         #the root is now swapped and heapified
         #lastly the array is shortened by one
-        min = self.heap_array[0]
-        end = len(self.heap_array)-1
+        min = self.heapArr[0]
+        end = len(self.heapArr)-1
         self.swap(0, end)
-        self.heap_array = self.heap_array[:end]
+        self.heapArr = self.heapArr[:end]
         self.heapify(0)
+    #method used to balance the min heap and sustain the min heap properties
+    def heapify(self, i):
+        n = len(self.heapArr)
+        parent = i
+        leftChild = 2 * i + 1
+        rightChild = 2 * i + 2
+
+        #if statement to check if child is larger than the parent
+        if leftChild < n and self.heapArr[i] > self.heapArr[leftChild]:
+            parent = leftChild
+
+        #if statement to check if child is larger than the parent
+        if rightChild < n and self.heapArr[parent] > self.heapArr[rightChild]:
+            parent = rightChild
+
+        #parent is swapped if a larger value is found
+        if parent != i:
+            self.swap(i, parent)
+            self.heapify(parent)
+
+    #sort method to organize numbers in descending order
+    def heapSort(self):
+        size = len(self.heapArr)
+        #temp array to hold the root item every time is is removed
+        temp = []
+
+        #for loop to traverse the array and pop the root into the temp array
+        for i in range(size):
+            temp.append(self.heapArr[0])
+            self.swap(0, len(self.heapArr) - 1)
+            self.heapArr = self.heapArr[:len(self.heapArr) - 1]
+            self.heapify(0)
+
+        #overwritting the heap array with the temp array
+        self.heapArr = temp
+
+    #method created to check if the heap array is empty
+    def is_empty(self):
+        return len(self.heapArr) == 0
+
 
         #return the value of the smallest integer in the array
         return min
 
     #helper method used to print a heap array
     def print(self):
-        print(self.heap_array)
+        print(self.heapArr)
 
-        print("Length of the array: %d" % len(self.heap_array))
+        print("Length of the array: %d" % len(self.heapArr))
 
     #helper method to swap array values
     def swap(self, parent, child):
-        self.heap_array[parent], self.heap_array[child] = self.heap_array[child], self.heapArr[parent]
+        self.heapArr[parent], self.heapArr[child] = self.heapArr[child], self.heapArr[parent]
 
-
-
-def read(heap):#Reads txt file to input into heap
+#method used to read a txt file and insert it into a heap array
+def read(heap):
     try:
         file = input("Enter file name:")
         #method used to read the txt file
         read = open(file, "r").read().split(",")
         for i in read:
+            #the value is hard coded into an integer
             entry = int(i)
             if entry >= 0:
                 heap.insert(entry)
         return True
     except FileNotFoundError:
-        print("File not found.\n")
+        #error for invalid input
+        print("File not found. Please try again\n")
         return False
-    
-    
-    
+start = time.time()
 def menu():
-    menu = [1,2,3,4,5]
-
-    user = input("\nChoose one of the following options: o\n\n1) Show the Min Heap\n2) Insert int value \n3) Extract Minimum Number\n4) Check If Heap Is Empty\n5) Sort the List\n Exit\n")
+    menu = ['a', 'b', 'c', 'd', 'e', 'f']
+    user = input("\nChoose one of the following options: \n\nA) Show the Min Heap\nB) Insert int value \nC) Extract Minimum Number\nD) Check If Heap Is Empty\nE) Sort the List\n F)Exit\n")
     if user in menu:#checks if users input is in the array: menu
         return user, True
-    else:
-        print("Invalid option")
-        return user, False
+    print("Invalid option")
+    return user, False
     
     
     
@@ -122,11 +134,11 @@ def main():
             user, status = menu()
 
         #call method to print min heap array
-        if user == 1
+        if user == 'a':
             print("\nMin Heap List: \n")
             heap.print()
         #require user to input any number in to created heap
-        elif user == 2
+        elif user == 'b':
             status = False
             while status is False:
                 user = input("Please enter a digit you wish to insert: ")
@@ -141,22 +153,24 @@ def main():
                    print("Make sure to insert an integer")
 
         #print the minimum number and print the new list
-        elif user == 3
+        elif user == 'c':
             minNumber = heap.extract_min()
             print("The minimum extracted is: %d\n" % minNumber)
             print("The new list is: ")
             heap.print()
 
-        elif user == 4 #call method to check in heap is empty
+        elif user == 'd': #call method to check in heap is empty
             answer = heap.is_empty()
             print(answer)
 
-        elif user == 5#sorts heap with minHeap
+        elif user == 'e': #sorts heap with minHeap
             heap.heapSort()
             heap.print()
 
-        elif user == 6#Stops program
+        elif user == 'f': #Stops program
             cont = False
+            end = time.time()
+            print(end - start)
 
 
 main()
